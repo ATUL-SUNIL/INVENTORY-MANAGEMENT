@@ -13,6 +13,8 @@ server.set("view engine","ejs")
 server.set("views",path.join(path.resolve(),"src",'views')) 
 
 server.use(ejsLayouts)
+
+server.use(express.static("public"));
 // creating instance of product controller\
 const ProductController=new productController();
 server.get("/",ProductController.getProducts);
@@ -21,6 +23,7 @@ server.post('/',validationMiddleware,ProductController.addNewProduct)
 server.get('/update-product/:id',ProductController.getUpdateProductView)
 server.post('/update-product',ProductController.postUpdateProduct)
 server.use(express.static("src/views"));
+server.post("/delete-product/:id",ProductController.deleteProduct)
 
 server.listen(3100,()=>{
     console.log("listening at port 3100");
