@@ -2,6 +2,7 @@ import express from 'express';
 import productController from './src/controllers/product.controller.js';
 import path from 'path';
 import ejsLayouts from 'express-ejs-layouts'
+import userController from './src/controllers/user.controller.js';
 import validationMiddleware from './src/middlewares/validation.middleware.js';
 import { UploadFile } from './src/middlewares/file-upload.middleware.js';
 const server= express();
@@ -18,8 +19,15 @@ server.use(ejsLayouts)
 server.use(express.static("public"));
 // creating instance of product controller\
 const ProductController=new productController();
-server.get("/",ProductController.getProducts);
+// creating instance of user controller\
+const UserController=new userController();
 
+server.get('/register',UserController.getRegister);
+server.get('/login',UserController.getLogin);
+server.post('/register',UserController.postRegister);
+server.post('/login',UserController.postLogin);
+
+server.get("/",ProductController.getProducts);
 server.get('/new',ProductController.getAddForm)
 
 server.post('/',UploadFile.single('imageUrl'),validationMiddleware,ProductController.addNewProduct)

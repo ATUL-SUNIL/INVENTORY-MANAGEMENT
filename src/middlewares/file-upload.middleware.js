@@ -1,7 +1,7 @@
 import multer from "multer";
 
 
-const stuorageConfig=multer.diskStorage({
+const storageConfig=multer.diskStorage({
     destination:(req,file,cb)=>{
         cb(null,"public/images");
     },
@@ -12,5 +12,5 @@ const stuorageConfig=multer.diskStorage({
 })
 
 export const UploadFile=multer({
-    storage:stuorageConfig,
+    storage:storageConfig,
 })
