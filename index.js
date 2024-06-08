@@ -34,6 +34,7 @@ server.get('/register',UserController.getRegister);
 server.get('/login',UserController.getLogin);
 server.post('/register',UserController.postRegister);
 server.post('/login',UserController.postLogin);
+server.get('/logout',UserController.logout);
 
 server.get("/",auth,ProductController.getProducts);
 server.get('/new',auth,ProductController.getAddForm)

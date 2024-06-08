@@ -24,14 +24,23 @@ export default class userController{
         const {email,password}=req.body;
         const user=UserModel.isValidUser(email,password);
         if(!user){
-            res.render('login',{
+            return res.render('login',{
                 errorMessage:'invalid credentials',
             });
         }
         req.session.userEmail =email;
         let products=ProductModel.get();
         
-        res.render("products",{products:products})
+        res.render("products",{products:products,userEmail:req.session.userEmail})
         
+    }
+    logout(req,res){
+        req.session.destroy((err)=>{
+            if(err){
+                console.log(err)
+;            }else{
+            res.redirect('/login')
+            }
+        });
     }
 }
