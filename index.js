@@ -5,6 +5,8 @@ import ejsLayouts from 'express-ejs-layouts'
 import userController from './src/controllers/user.controller.js';
 import validationMiddleware from './src/middlewares/validation.middleware.js';
 import { auth } from './src/middlewares/auth.middleware.js';
+import cookieParser from 'cookie-parser';
+import { setlastVisit } from './src/middlewares/lastvisit.middleware.js';
 import session from 'express-session';
 import { UploadFile } from './src/middlewares/file-upload.middleware.js';
 const server= express();
@@ -15,6 +17,10 @@ server.use(session({
     cookie:{secure:false},
 })
 );
+
+server.use(cookieParser());
+// server.use(setlastVisit)
+
 //parse form data
 server.use(express.urlencoded({extended:true}));
 //setup view engine settings
@@ -36,7 +42,7 @@ server.post('/register',UserController.postRegister);
 server.post('/login',UserController.postLogin);
 server.get('/logout',UserController.logout);
 
-server.get("/",auth,ProductController.getProducts);
+server.get("/",setlastVisit,auth,ProductController.getProducts);
 server.get('/new',auth,ProductController.getAddForm)
 
 server.post('/',auth,UploadFile.single('imageUrl'),validationMiddleware,ProductController.addNewProduct)
